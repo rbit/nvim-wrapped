@@ -10,7 +10,7 @@
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        swtc = pkgs.writeShellApplication {
+        swts = pkgs.writeShellApplication {
           name = "nvim-switch";
           runtimeInputs = with pkgs; [
             neovim
@@ -21,6 +21,10 @@
             cargo
           ];
           text = builtins.readFile ./nvim-switch.sh;
+        };
+        swtc = pkgs.buildFHSEnv {
+          name = "nvim-switch";
+          runScript = "${swts}/bin/nvim-switch";
         };
       in
       {

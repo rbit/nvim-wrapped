@@ -32,10 +32,6 @@ elif [[ -z $WLNDDSPL ]]; then
 fi
 
 # Choose invocation target
-if [[ -n $TTY ]]; then
-	nvim "$@"
-elif [[ -n $WAYLAND ]]; then
-	QT_QPA_PLATFORM=wayland nvim-qt "$@"
-else
-	nvim-qt "$@"
-fi
+[[ -n $TTY ]] && exec nvim "$@"
+[[ -n $WAYLAND ]] && QT_QPA_PLATFORM=wayland exec nvim-qt --nofork "$@"
+exec nvim-qt --nofork "$@"

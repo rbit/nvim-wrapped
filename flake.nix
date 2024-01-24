@@ -25,6 +25,7 @@
         swtc = pkgs.buildFHSEnv {
           name = "nvim-switch";
           runScript = "${swts}/bin/nvim-switch";
+          extraBwrapArgs = [ "--ro-bind /init /init" ];
         };
       in
       {

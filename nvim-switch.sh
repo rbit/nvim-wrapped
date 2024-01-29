@@ -33,5 +33,5 @@ fi
 
 # Choose invocation target
 [[ -n $TTY ]] && exec nvim "$@"
-[[ -n $WAYLAND ]] && QT_QPA_PLATFORM=wayland exec nvim-qt --nofork "$@"
-exec nvim-qt --nofork "$@"
+[[ -n $WAYLAND ]] && QT_QPA_PLATFORM=wayland exec nvim-qt --nofork -- "$@"
+exec nvim-qt --nofork -- "$@"

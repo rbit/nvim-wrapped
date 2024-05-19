@@ -17,6 +17,7 @@
           targetPkgs = pkgs: (with pkgs; [
             stdenv.cc
             gnumake
+            nodejs
             rustc
             cargo
           ]);

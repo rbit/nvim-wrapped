@@ -1,22 +1,17 @@
 {
   description = "Neovim with lazyvim dependencies";
 
-  inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    nvimpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
-  };
-
-  outputs = { self, nixpkgs, nvimpkgs, flake-utils }:
+  outputs = { self, nixpkgs, nixpkgs-unstable, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = nixpkgs.legacyPackages.${system};
-        nvpkgs = nvimpkgs.legacyPackages.${system};
+        nvpkgs = nixpkgs-unstable.legacyPackages.${system};
       in
       {
         packages.default = pkgs.buildFHSEnv {
           name = "nvim";
           targetPkgs = pkgs: (with pkgs; [
+            wl-clipboard-rs
             stdenv.cc
             gnumake
             nodejs

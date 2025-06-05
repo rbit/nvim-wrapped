@@ -1,10 +1,20 @@
 {
   description = "Neovim with lazyvim dependencies";
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, flake-utils }:
+  inputs = {
+    nixpkgs-stable.url = "https://flakehub.com/f/NixOS/nixpkgs/*";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+  };
+
+  outputs =
+    { nixpkgs-stable
+    , nixpkgs-unstable
+    , flake-utils
+    , ...
+    }:
     flake-utils.lib.eachDefaultSystem (system:
       let
-        pkgs = nixpkgs.legacyPackages.${system};
+        pkgs = nixpkgs-stable.legacyPackages.${system};
         nvpkgs = nixpkgs-unstable.legacyPackages.${system};
       in
       {
@@ -21,6 +31,7 @@
           runScript = "${nvpkgs.neovim}/bin/nvim";
           extraBwrapArgs = [
             "--bind /etc/nixos /etc/nixos"
+            "--bind /etc/vroot /etc/vroot"
           ];
         };
       });
